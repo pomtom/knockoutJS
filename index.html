@@ -32,8 +32,8 @@
     <hr>
     <select id="ddlEmp" data-bind="options:employees, optionsText:'firstname',optionsValue:'id'"></select><br><br>
     Total Employee Count : <span data-bind="text:employees().length"></span>
-     | Total Balance : <span data-bind="text:totalBalance()"></span>
-     | Max Balance : <span data-bind="text:maximumBalance()"></span>
+    | Total Balance : <span data-bind="text:totalBalance()"></span>
+    | Max Balance : <span data-bind="text:maximumBalance()"></span>
     <br><br>
 
     <div style="border:1px solid black;">
@@ -78,20 +78,19 @@
         var EmployeeCollection = function () {
             var a1 = new Employee(1, 'pramod', 'lawate', 1000);
             var a2 = new Employee(2, 'kavita', 'vhanmane', 2000);
-            
+
             this.employees = ko.observableArray([a1, a2]);
             this.selectedEmployeeIndex = ko.observable(0);
-            this.totalBalance = ko.computed(function(){
-                var total  = 0;
-                for (var i = 0; i < employees().length; i++)
-                {
+            this.totalBalance = ko.computed(function () {
+                var total = 0;
+                for (var i = 0; i < employees().length; i++) {
                     total += Number(employees()[i].balance);
                 }
                 return total;
             });
 
-            this.maximumBalance = ko.computed(function(){
-
+            this.maximumBalance = ko.computed(function () {
+                return 0;
             });
         }
         ko.applyBindings(EmployeeCollection);
