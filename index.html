@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script src="knockout-3.4.2.js"></script>
+</head>
+
+<body>
+
+    <table border="2px">
+        <tr>
+            <td>Firstname</td>
+            <td><input type="text" id="txtFirstname"></td>
+        </tr>
+        <tr>
+            <td>Lastname</td>
+            <td><input type="text" id="txtLastname"></td>
+        </tr>
+        <tr>
+            <td>Balance</td>
+            <td><input type="text" id="txtBalance"></td>
+        </tr>
+        <tr>
+            <th><input type="button" id="btnAdd" value="Add"> </th>
+            <th><input type="button" id="btnpop" value="Pop"> </th>
+            <th><input type="button" id="btnreverse" value="Reverse"> </th>
+        </tr>
+    </table>
+    <hr>
+    <select id="ddlEmp" data-bind="options:employees, optionsText:'firstname',optionsValue:'id'"></select><br><br>
+    Total Employee Count : <span data-bind="text:employees().length"></span>
+     | Total Balance : <span data-bind="text:totalBalance()"></span>
+     | Max Balance : <span data-bind="text:maximumBalance()"></span>
+    <br><br>
+
+    <div style="border:1px solid black;">
+        Id : <span data-bind="text:employees()[selectedEmployeeIndex()].id"></span><br>
+        First Name : <span data-bind="text:employees()[selectedEmployeeIndex()].firstname"></span><br>
+        Last Name : <span data-bind="text:employees()[selectedEmployeeIndex()].lastname"></span><br>
+        Balance : <span data-bind="text:employees()[selectedEmployeeIndex()].balance"></span><br>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#btnAdd').click(function () {
+                var emp = new Employee(employees.length + 1, $("#txtFirstname").val(), $("#txtLastname")
+                    .val(), $("#txtBalance").val())
+
+                employees.push(emp);
+                $("#txtFirstname").val(''), $("#txtLastname").val(''), $("#txtBalance").val('')
+            });
+
+            $('#btnpop').click(function () {
+                employees.pop();
+            });
+            $('#btnreverse').click(function () {
+                employees.reverse();
+            });
+
+            $('#ddlEmp').change(function () {
+                var index = document.getElementById("ddlEmp").selectedIndex;
+                selectedEmployeeIndex(index);
+            });
+
+        });
+
+
+        function Employee(_id, _firstname, _lastname, _balance) {
+            this.id = _id;
+            this.firstname = _firstname;
+            this.lastname = _lastname;
+            this.balance = _balance;
+        }
+        var EmployeeCollection = function () {
+            var a1 = new Employee(1, 'pramod', 'lawate', 1000);
+            var a2 = new Employee(2, 'kavita', 'vhanmane', 2000);
+            
+            this.employees = ko.observableArray([a1, a2]);
+            this.selectedEmployeeIndex = ko.observable(0);
+            this.totalBalance = ko.computed(function(){
+                var total  = 0;
+                for (var i = 0; i < employees().length; i++)
+                {
+                    total += Number(employees()[i].balance);
+                }
+                return total;
+            });
+
+            this.maximumBalance = ko.computed(function(){
+
+            });
+        }
+        ko.applyBindings(EmployeeCollection);
+    </script>
+
+</body>
+
+</html>
