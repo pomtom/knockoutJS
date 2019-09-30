@@ -34,6 +34,7 @@
     Total Employee Count : <span data-bind="text:employees().length"></span>
     | Total Balance : <span data-bind="text:totalBalance()"></span>
     | Max Balance : <span data-bind="text:maximumBalance()"></span>
+    | Min Balance : <span data-bind="text:minimumBalance()"></span>
     <br><br>
 
     <div style="border:1px solid black;">
@@ -90,7 +91,11 @@
             });
 
             this.maximumBalance = ko.computed(function () {
-                return 0;
+                return employees().reverse()[0].balance;;
+            });
+
+            this.minimumBalance = ko.computed(function () {
+                return employees().sort()[0].balance;
             });
         }
         ko.applyBindings(EmployeeCollection);
